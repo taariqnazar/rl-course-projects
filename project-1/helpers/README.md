@@ -25,9 +25,9 @@ The model `P[s, a, s']` and `R[s, a]` is **not** provided, because building it i
 
 ## `plotting.py`
 
-- `plot_mean_std(ax, x, runs, label)`: mean over seeds with a ±1 std band. `runs` has shape `(n_seeds, len(x))`.
-- `plot_values(ax, V, title, fmt=".2f")`: heat map of any length-25 array, such as a value function. Use `fmt=".0f"` for counts.
-- `plot_policy(ax, policy, title)`: a deterministic policy drawn as arrows.
+- `plot_mean_std(ax, x, runs, label, color=None)`: mean over seeds with a ±1 std band. `runs` has shape `(n_seeds, len(x))`.
+- `plot_values(ax, V, title=None, fmt=".2f")`: heat map of any length-25 array, such as a value function. Use `fmt=".0f"` for counts.
+- `plot_policy(ax, policy, title=None)`: a deterministic policy, given as a length-25 array of actions, drawn as arrows.
 
 ```python
 import matplotlib.pyplot as plt

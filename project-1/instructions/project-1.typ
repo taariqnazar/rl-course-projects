@@ -31,7 +31,7 @@ The project is worth 100 points and you need at least 50 to pass. The _Grading C
 
 A late submission loses 15 points. A failed submission that is resubmitted loses 7 points, plus the 15 points for being late.
 
-Whenever results are random, use *at least 10 random seeds*. Plot the mean with a shaded band of ±1 standard deviation. See @fig-example for an example.
+Whenever results are random, use *at least 10 random seeds*. Unless an exercise says otherwise, plot the mean with a shaded band of ±1 standard deviation. See @fig-example for an example.
 
 All exercises use the same environment, so the exact answers from Part A can be used to check your results in Part B.
 
@@ -87,13 +87,13 @@ Check that every row `P[s, a, :]` sums to 1 and, for non-terminal $s$, matches t
 
 Let $pi_"rand"$ be the uniformly random policy. Throughout Part A, a *sweep* updates every state once, using only the previous sweep's values (keep two arrays). Iterative methods start from $V = 0$ and stop when $max_s |V_(k+1)(s) - V_k (s)| < 10^(-8)$.
 
-+ Compute $v_pi_"rand"$ *exactly* by solving the linear system $v = r_pi + gamma P_pi v$. Show it as a $5 times 5$ grid.
-+ Compute it again with *iterative policy evaluation* (§4.1). Plot $max_s |V_k (s) - v_pi_"rand" (s)|$ against sweep $k$ on a log scale. What shape is the curve, and what sets its slope?
++ Compute $v_pi_"rand"$ *exactly* by solving the Bellman equations as a system of $|cal(S)|$ linear equations (§4.1). Show it as a $5 times 5$ grid.
++ Compute it again with *iterative policy evaluation* (§4.1). Plot $max_s |V_k (s) - v_pi_"rand" (s)|$ against sweep $k$ on a log scale. What shape is the curve, and how does its slope compare with $log gamma$?
 + Write a function `evaluate(pi)` that returns $v_pi$ for any policy, given as an array `pi[s, a]` of action probabilities. *You will reuse it throughout Part B to measure how good your learned policies really are.*
 
 == A3. Policy iteration #pts(10)
 
-#lead[Evaluating a policy tells us how good it is. Acting greedily with respect to its values gives a better one.]
+#lead[Acting greedily with respect to a policy's values gives a policy that is at least as good.]
 
 Implement policy iteration (§4.3), starting from the policy "always up". Start each evaluation from the previous policy's values (only the first starts from $V = 0$). When improving, keep the current action unless another action is better by more than $10^(-9)$.
 
@@ -109,7 +109,7 @@ Implement value iteration (§4.4).
 
 + Plot $max_s |V_k (s) - v_* (s)|$ against $k$. On the same plot, mark the first sweep from which the greedy policy with respect to $V_k$ equals $pi_*$ in all non-terminal states and stays that way.
 + Show $V_k$ as heat maps for $k = 1, 2, 4, 8$, and describe how the values spread from G.
-+ Compare value iteration with policy iteration by the number of sweeps needed to reach $pi_*$: for value iteration, the sweep marked in part 1; for policy iteration, all evaluation sweeps before the policy first equals $pi_*$.
++ Compare value iteration with policy iteration by the number of sweeps needed to reach $pi_*$: for value iteration, the sweep marked in item 1; for policy iteration, all evaluation sweeps before the policy first equals $pi_*$.
 + Run value iteration for $gamma in {0.5, 0.9, 0.99}$. Report the sweeps to convergence in a table and show $pi_*$ as arrows for each $gamma$. How does the number of sweeps change? Compare with the bound $max_s |V_k (s) - v_* (s)| <= gamma^k max_s |V_0 (s) - v_* (s)|$ and explain any difference. Does the optimal policy change?
 
 = Part B: Monte Carlo Methods (52 p)
@@ -149,13 +149,13 @@ Consider this episode ($T = 8$):
 Estimate $v_pi_"rand"$ with first-visit and every-visit MC prediction (§5.1), with all episodes starting in S and $V equiv 0$ until a state is first visited.
 
 + Plot the RMSE between $V$ and $v_pi_"rand"$ over non-terminal states against the number of episodes (up to 2000) for both variants.
-+ Show the per-state absolute error after 2000 episodes as a heat map. Which states are worst, and why?
++ Show the per-state absolute error of each variant after 2000 episodes, averaged over seeds, as a heat map. Which states are worst, and why?
 
 == B3. Greedy MC control: what goes wrong #pts(10)
 
 #lead[Improving a policy from $V$ alone requires the model, so we estimate action values $Q(s, a)$ instead.]
 
-Implement first-visit MC control where the agent *always acts greedily* with respect to $Q$, breaking ties at random. Start every episode in S with $Q equiv 0$.
+Implement first-visit MC control where the agent *always acts greedily* with respect to $Q$, breaking ties at random. Initialise $Q equiv 0$ and start every episode in S.
 
 + Every 500 episodes, take the greedy policy $pi_k$ and record $v_(pi_k)("S")$ with `evaluate()`. Plot it against episodes (up to 10000) together with $v_*("S")$, as a learning curve like @fig-example (helper: `plot_mean_std`).
 + After training, show the learned policy as arrows (helper: `plot_policy`) and a heat map of the visit counts $N(s, a)$, summed over actions or shown per action (helper: `plot_values` with `fmt=".0f"`).
@@ -167,7 +167,7 @@ Implement first-visit MC control where the agent *always acts greedily* with res
 
 + *Exploring starts* (§5.3): start each episode in a uniformly random non-terminal state with a uniformly random first action, then act greedily. Record $v_(pi_k)("S")$ as in B3.
 + *On-policy $epsilon$-greedy* (§5.4): start in S and act $epsilon$-greedily for $epsilon in {0.05, 0.1, 0.2}$. Record $v_(pi_k)("S")$ as in B3 for each $epsilon$, where $pi_k$ is the *greedy* policy derived from $Q$.
-+ After training, evaluate the $epsilon$-greedy policy the agent *actually follows* for each $epsilon$, and report it in a table next to $v_*("S")$. Explain the gap.
++ After training, evaluate the $epsilon$-greedy policy the agent *actually follows* for each $epsilon$, and report its value at S in a table next to $v_*("S")$. Explain the gap.
 + Plot greedy, exploring starts and the three $epsilon$-greedy curves in one figure and rank them. How does the choice of $epsilon$ trade learning speed against final performance?
 
 == B5. Off-policy prediction with importance sampling #pts(12)
@@ -176,10 +176,10 @@ Implement first-visit MC control where the agent *always acts greedily* with res
 
 The target policy is the deterministic $pi_*$ from Part A. Generate episodes from S with a *behaviour policy* $b$ that is $epsilon_b$-greedy around $pi_*$, and estimate $v_*("S")$ from those episodes alone, using the return from $t = 0$ of each episode (§5.5):
 
-- *ordinary* importance sampling, and
-- *weighted* importance sampling (the estimate is 0 until the first non-zero ratio).
+- *ordinary* importance sampling (OIS), and
+- *weighted* importance sampling (WIS; the estimate is 0 until the first non-zero ratio).
 
-+ For $epsilon_b in {0.5, 1.0}$ ($epsilon_b = 1$ is uniformly random behaviour), plot both estimates against episodes (up to 5000, log $x$-axis) for 20 seeds, with *each seed as its own thin line*, plus the true value.
++ For $epsilon_b in {0.5, 1}$ ($epsilon_b = 1$ is uniformly random behaviour), plot both estimates against episodes (up to 5000, log $x$-axis) for 20 seeds, with *each seed as its own thin line*, plus the true value.
 + Report the mean and standard deviation over seeds of each estimator after 10, 100, 1000 and 5000 episodes.
 + Most importance ratios $rho$ are exactly 0. Why? What do the rare non-zero ones look like when $epsilon_b = 1$?
 + Which estimator would you prefer, and how does the answer depend on $epsilon_b$?
