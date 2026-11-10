@@ -1,6 +1,8 @@
 # Reinforcement Learning: Course Projects
 
-Projects for the reinforcement learning course, based on Sutton & Barto, *Reinforcement Learning: An Introduction* (2nd ed.).
+Projects for the Reinforcement Learning course at Stockholm University (SU).
+
+**Course literature:** Richard S. Sutton and Andrew G. Barto, [*Reinforcement Learning: An Introduction*](http://incompleteideas.net/book/the-book-2nd.html), 2nd edition, MIT Press, 2018. The book is freely available online. The projects refer to it as "Sutton & Barto".
 
 | Project | Topic | Instructions | Helper code |
 |---|---|---|---|
