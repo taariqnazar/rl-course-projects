@@ -21,7 +21,7 @@ Hand in one typed PDF. Follow the exercise numbering (A1, A2, …) so each answe
 
 Keep it short. Answer each question with a figure or table and a few sentences that say what it shows. Describe what *you* observed, not what the book says should happen.
 
-**Always include a learning curve** for every method you train: a performance measure (error, return or value) against episodes, sweeps or steps. Plot the mean over seeds as a line with a shaded ±1 std band, as in the example below. Each project tells you which other figures it needs.
+**Always include a learning curve** for every method you train: a performance measure that grows as the agent improves, such as the average return or the value of the start state, against episodes, sweeps or steps. Mark the optimum when you know it. Plot the mean over seeds as a line with a shaded ±1 std band, as in the example below. Each project tells you which other figures it needs.
 
 Every figure should:
 
@@ -33,7 +33,7 @@ Every figure should:
 
 Random results need at least 10 seeds. Say how many you used.
 
-![Example learning curve: mean over 10 seeds with a ±1 std band](common/figures/example-plot.svg)
+![Example learning curve: average return over episodes, mean over 10 seeds with a ±1 std band](common/figures/example-plot.svg)
 
 *Example of a learning-curve figure (synthetic data).* The helper code includes a function for this plot (`plot_mean_std` in Project 1).
 

@@ -19,13 +19,17 @@ episodes = np.arange(50, 2001, 50)
 n_seeds = 10
 
 
-def runs(start, floor, rate, noise):
-    base = floor + (start - floor) * np.exp(-episodes / rate)
-    return base * np.exp(noise * rng.standard_normal((n_seeds, len(episodes))))
+OPTIMUM = 9.0
 
 
-curves = {"Method A": (runs(3.0, 0.3, 250, 0.10), BLUE),
-          "Method B": (runs(3.0, 1.2, 500, 0.15), ORANGE)}
+def runs(start, plateau, rate, noise):
+    """Return that rises from `start` towards `plateau`, one row per seed."""
+    base = plateau + (start - plateau) * np.exp(-episodes / rate)
+    return base + noise * rng.standard_normal((n_seeds, len(episodes)))
+
+
+curves = {"Method A": (runs(-8.0, 8.5, 300, 0.6), BLUE),
+          "Method B": (runs(-8.0, 4.0, 500, 1.2), ORANGE)}
 
 plt.rcParams.update({"font.size": 9, "axes.edgecolor": MUTED, "axes.labelcolor": INK,
                      "xtick.color": MUTED, "ytick.color": MUTED})
@@ -37,13 +41,13 @@ for name, (y, color) in curves.items():
     ax.annotate(name, (episodes[-1], mean[-1]), xytext=(6, 0), textcoords="offset points",
                 va="center", color=INK, fontsize=9)
 
+ax.axhline(OPTIMUM, color=MUTED, linestyle="--", linewidth=1, label="Optimal")
 ax.set_xlabel("Episodes")
-ax.set_ylabel("RMSE")
-ax.set_title(f"Example: RMSE vs. episodes ({n_seeds} seeds)", color=INK, fontsize=10, loc="left")
+ax.set_ylabel("Average return")
+ax.set_title(f"Example: learning curve ({n_seeds} seeds)", color=INK, fontsize=10, loc="left")
 ax.set_xlim(0, 2250)
-ax.set_ylim(bottom=0)
 ax.grid(True, color=GRID, linewidth=0.8)
 ax.spines[["top", "right"]].set_visible(False)
-ax.legend(frameon=False, loc="upper right", labelcolor=INK)
+ax.legend(frameon=False, loc="lower right", labelcolor=INK)
 fig.tight_layout()
 fig.savefig(Path(__file__).with_name("example-plot.svg"))

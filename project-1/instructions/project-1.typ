@@ -201,5 +201,5 @@ Fill in the table below *from your own experiments* and add a few sentences comp
 
 #figure(
   image("/common/figures/example-plot.svg", width: 62%),
-  caption: [Example: mean over 10 seeds with a ±1 standard deviation band. Synthetic data.],
+  caption: [Example learning curve: mean over 10 seeds with a ±1 standard deviation band; the dashed line is the optimum. Synthetic data.],
 ) <fig-example>
