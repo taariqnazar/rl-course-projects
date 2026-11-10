@@ -23,7 +23,7 @@
 
 = Instructions
 
-Hand in a single typed PDF with your answers, plots and tables, and your code as an appendix. Keep answers short. A plot plus two sentences beats a page of text.
+Hand in a single typed PDF with your answers, plots and tables, and your code as an appendix. Keep answers short. A plot plus two sentences beats a page of text. See the #link("https://github.com/taariqnazar/rl-course-projects#writing-your-report")[repository README] for how to write the report.
 
 You may use any programming language. Python with NumPy is recommended: the helper code at #link("https://github.com/taariqnazar/rl-course-projects/tree/main/project-1/helpers")[`github.com/taariqnazar/rl-course-projects`] (folder `project-1/helpers`) provides the environment (`gridworld.py`) and plotting functions (`plotting.py`).
 
@@ -200,6 +200,6 @@ Fill in the table below *from your own experiments* and add a few sentences comp
 )))
 
 #figure(
-  image("figures/example-plot.svg", width: 62%),
+  image("/common/figures/example-plot.svg", width: 62%),
   caption: [Example: mean over 10 seeds with a ±1 standard deviation band. Synthetic data.],
 ) <fig-example>

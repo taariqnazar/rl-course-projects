@@ -1,4 +1,4 @@
-"""Generate the example plot shown at the end of the instructions.
+"""Generate the example plot shared by all projects (README and instructions).
 
 Synthetic data only: it shows the expected plot format (mean over seeds with
 a +-1 std band) without revealing any results from the assignment.
