@@ -157,8 +157,8 @@ Estimate $v_pi_"rand"$ with first-visit and every-visit MC prediction (§5.1), w
 
 Implement first-visit MC control where the agent *always acts greedily* with respect to $Q$, breaking ties at random. Start every episode in S with $Q equiv 0$.
 
-+ Every 500 episodes, take the greedy policy $pi_k$ and record $v_(pi_k)("S")$ with `evaluate()`. Plot it against episodes (up to 10000) together with $v_*("S")$.
-+ After training, show the learned policy as arrows and a heat map of the visit counts $N(s, a)$, summed over actions or shown per action.
++ Every 500 episodes, take the greedy policy $pi_k$ and record $v_(pi_k)("S")$ with `evaluate()`. Plot it against episodes (up to 10000) together with $v_*("S")$, as a learning curve like @fig-example (helper: `plot_mean_std`).
++ After training, show the learned policy as arrows (helper: `plot_policy`) and a heat map of the visit counts $N(s, a)$, summed over actions or shown per action (helper: `plot_values` with `fmt=".0f"`).
 + Explain what happened. Point to specific $(s, a)$ pairs in your counts. Would more episodes help?
 
 == B4. Two ways to explore #pts(15)
