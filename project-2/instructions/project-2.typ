@@ -33,10 +33,11 @@ Whenever results are random, use *at least 10 random seeds*. Unless an exercise 
 
 = The environments
 
-All three are examples from Sutton & Barto; the helpers implement them exactly as described there. All are undiscounted ($gamma = 1$).
+All four are examples from Sutton & Barto; the helpers implement them exactly as described there. All are undiscounted ($gamma = 1$).
 
 - *Random walk* (Examples 6.2, 7.1 and 9.1). States $1, dots, n$ in a row, start in the middle, move left or right at random. Entering the left end gives $-1$ (0 in Example 6.2), the right end $+1$, everything else $0$. `RandomWalk(5, left_reward=0)` and `RandomWalk(19)` move one state per step; `RandomWalk(1000, max_jump=100)` jumps up to 100 states. `env.true_values()` returns the exact values, so you can measure the error of every estimate.
 - *Cliff walking* (Example 6.6). A $4 times 12$ grid with deterministic moves. Every step gives $-1$; stepping into the cliff gives $-100$ and sends the agent back to the start.
+- *Maximisation bias* (Example 6.7). From state A, `right` ends the episode and `left` leads to state B, both with reward $0$. Every action in B ends the episode with a reward drawn from a normal distribution with mean $-0.1$ and variance $1$.
 - *Mountain Car* (Example 10.1). A car in a valley must rock back and forth to reach the top. The state $(x, v)$ is continuous, there are three actions, and every step gives $-1$.
 
 = Part A: Tabular methods (45 p)
@@ -57,7 +58,7 @@ Use the 5-state random walk of Example 6.2 (`RandomWalk(5, left_reward=0)`) and 
 + Implement n-step TD prediction (§7.1) on the 19-state random walk from $V equiv 0$. For $n in {1, 2, 4, 8, 16, 512}$ and $alpha in {0, 0.1, dots, 1}$, compute the RMSE over the 19 states, averaged over the first 10 episodes and over 100 runs. Plot error against $alpha$, one curve per $n$ (mean only; limit the $y$-axis to $[0.25, 0.55]$).
 + Which $n$ and $alpha$ give the lowest error? How does the best $alpha$ change with $n$, and why? Which earlier methods are $n = 1$ and (approximately) $n = 512$?
 
-== A3. Sarsa, Q-learning and Expected Sarsa #pts(15)
+== A3. Sarsa, Q-learning and Expected Sarsa #pts(12)
 
 #lead[The same idea gives control: learn action values and act $epsilon$-greedily.]
 
@@ -67,12 +68,21 @@ Use cliff walking with $epsilon = 0.1$, $alpha = 0.5$ and $Q equiv 0$, for 500 e
 + For one seed, show the greedy policy each method has learned after 500 episodes (helper: `plot_cliff_policy`). Note if it does not reach the goal.
 + Which method learns the shortest path? Which collects the most reward while learning? Explain the difference.
 
-== A4. n-step Sarsa #pts(10)
+== A4. n-step Sarsa #pts(6)
 
 #lead[n-step returns work for control as well.]
 
 + Implement n-step Sarsa (§7.2) on cliff walking with $epsilon = 0.1$, $Q equiv 0$ and random tie-breaking, as in A3. For $n in {1, 2, 4, 8}$ and $alpha in {0.1, 0.2, 0.4, 0.6, 0.8}$, record the average return over the first 200 episodes. Plot it against $alpha$, one curve per $n$.
 + Which values of $n$ and $alpha$ work well? How does the best $alpha$ depend on $n$?
+
+== A5. Double Q-learning #pts(7)
+
+#lead[Maximising over noisy estimates overestimates values (§6.7).]
+
+Use `MaximisationBias()` with $epsilon = 0.1$, $alpha = 0.1$, $Q equiv 0$ and random tie-breaking, for 300 episodes.
+
++ Implement Q-learning and Double Q-learning (§6.7); for Double Q-learning, act $epsilon$-greedily with respect to $Q_1 + Q_2$. Plot the percentage of episodes in which the agent goes left from A against the episode number, averaged over 1000 runs (mean only), together with the optimal 5%.
++ Why does Q-learning prefer left in early episodes? Why does Double Q-learning not?
 
 = Part B: Function approximation (45 p)
 
@@ -123,6 +133,7 @@ Fill in the table below for the methods as you used them *in your own experiment
   [Sarsa], [], [], [], [],
   [Q-learning], [], [], [], [],
   [Expected Sarsa], [], [], [], [],
+  [Double Q-learning], [], [], [], [],
   [Semi-gradient Sarsa], [], [], [], [],
 )))
 

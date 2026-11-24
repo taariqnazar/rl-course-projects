@@ -68,6 +68,41 @@ class RandomWalk:
         return np.linalg.solve(np.eye(n) - p[1:n + 1, 1:n + 1], r)
 
 
+class MaximisationBias:
+    """The small MDP of Sutton & Barto, Example 6.7 (maximisation bias).
+
+    Episodes start in state A (= 0). In A there are two actions: LEFT (= 0)
+    moves to state B (= 1) and RIGHT (= 1) ends the episode; both give reward 0.
+    In B there are `n_actions_b` actions; each ends the episode with a reward
+    drawn from a normal distribution with mean -0.1 and variance 1.
+    The terminal state is 2. Undiscounted (gamma = 1).
+
+    Use `n_actions(s)` to get the number of actions available in state s.
+    """
+
+    A, B, TERMINAL = 0, 1, 2
+    LEFT, RIGHT = 0, 1
+
+    def __init__(self, n_actions_b=10, seed=None):
+        self.n_actions_b = n_actions_b
+        self.rng = np.random.default_rng(seed)
+
+    def n_actions(self, s):
+        return 2 if s == self.A else self.n_actions_b
+
+    def reset(self):
+        return self.A
+
+    def step(self, s, a):
+        if s == self.A:
+            if a == self.LEFT:
+                return self.B, 0.0, False
+            return self.TERMINAL, 0.0, True
+        if s == self.B:
+            return self.TERMINAL, float(self.rng.normal(-0.1, 1.0)), True
+        raise ValueError("the episode has ended; call reset()")
+
+
 class CliffWalking:
     """The cliff-walking gridworld (Sutton & Barto, Example 6.6).
 

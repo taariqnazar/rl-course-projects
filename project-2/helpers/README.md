@@ -5,7 +5,7 @@ Optional Python helpers for Project 2. Requires NumPy and Matplotlib.
 Copy the `.py` files into the folder with your own code, then:
 
 ```python
-from environments import RandomWalk, CliffWalking, MountainCar
+from environments import RandomWalk, MaximisationBias, CliffWalking, MountainCar
 from tiles import TileCoder
 from plotting import plot_mean_std, plot_cliff_policy, plot_cost_to_go
 
@@ -22,6 +22,7 @@ All environments use the same interface as in Project 1: `reset()` returns the s
   - `RandomWalk(5, left_reward=0)`: the 5-state walk of Example 6.2.
   - `RandomWalk(19)`: the 19-state walk.
   - `RandomWalk(1000, max_jump=100)`: the 1000-state walk.
+- `MaximisationBias(n_actions_b=10, seed=None)`: the MDP of Example 6.7. States `A, B, TERMINAL = 0, 1, 2`; in A, actions `LEFT, RIGHT = 0, 1`; in B, `n_actions_b` actions. Use `n_actions(s)` for the number of actions in state `s`.
 - `CliffWalking(seed=None)`: states `0..47`, actions `UP, RIGHT, DOWN, LEFT = 0, 1, 2, 3`. Use `to_state(row, col)` and `to_cell(s)` to convert, with row 0 at the bottom. The cliff gives −100 and returns the agent to the start; the episode continues.
 - `MountainCar(seed=None)`: the state is a tuple `(x, v)`; actions `0, 1, 2` are reverse, zero and forward throttle. Bounds: `X_MIN, X_MAX, V_MIN, V_MAX`.
 
