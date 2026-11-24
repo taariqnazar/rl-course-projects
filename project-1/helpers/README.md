@@ -2,7 +2,7 @@
 
 Optional Python helpers for Project 1. Requires NumPy and Matplotlib.
 
-Copy this folder next to your own code, then:
+Copy the `.py` files into the folder with your own code, then:
 
 ```python
 from gridworld import SlipperyCliff, UP, RIGHT, DOWN, LEFT, to_state, to_cell, GAMMA

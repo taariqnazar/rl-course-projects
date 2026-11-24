@@ -7,7 +7,10 @@ in subplots and add titles or labels yourself.
 import matplotlib.pyplot as plt
 import numpy as np
 
-from environments import CliffWalking, MountainCar
+try:
+    from .environments import CliffWalking, MountainCar
+except ImportError:
+    from environments import CliffWalking, MountainCar
 
 _ARROWS = {0: "↑", 1: "→", 2: "↓", 3: "←"}
 
@@ -15,9 +18,9 @@ _ARROWS = {0: "↑", 1: "→", 2: "↓", 3: "←"}
 def plot_mean_std(ax, x, runs, label, color=None):
     """Plot the mean over seeds with a shaded band of ±1 standard deviation.
 
-    runs : array of shape (n_seeds, len(x)), one row per seed.
+    runs : array of shape (n_seeds, len(x)), one row per seed (a single run also works).
     """
-    runs = np.asarray(runs)
+    runs = np.atleast_2d(np.asarray(runs, dtype=float))
     mean, std = runs.mean(axis=0), runs.std(axis=0)
     (line,) = ax.plot(x, mean, color=color, linewidth=2, label=label)
     ax.fill_between(x, mean - std, mean + std, color=line.get_color(), alpha=0.2, linewidth=0)

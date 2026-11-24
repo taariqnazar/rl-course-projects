@@ -2,7 +2,7 @@
 
 Optional Python helpers for Project 2. Requires NumPy and Matplotlib.
 
-Copy this folder next to your own code, then:
+Copy the `.py` files into the folder with your own code, then:
 
 ```python
 from environments import RandomWalk, CliffWalking, MountainCar
@@ -18,7 +18,7 @@ All environments use the same interface as in Project 1: `reset()` returns the s
 
 ## `environments.py`
 
-- `RandomWalk(n_states=19, max_jump=1, left_reward=-1, seed=None)`: states `1..n`, terminals `0` (reward `left_reward`) and `n + 1` (reward +1). There are no actions: call `step(s)`. `true_values()` returns the exact values of states `1..n`.
+- `RandomWalk(n_states=19, max_jump=1, left_reward=-1, seed=None)`: states `1..n`, terminals `0` (reward `left_reward`) and `n + 1` (reward +1). There are no actions: call `step(s)`. `true_values()` returns the exact values of states `1..n` as an array of length `n` (state `s` at index `s - 1`).
   - `RandomWalk(5, left_reward=0)`: the 5-state walk of Example 6.2.
   - `RandomWalk(19)`: the 19-state walk.
   - `RandomWalk(1000, max_jump=100)`: the 1000-state walk.
@@ -30,6 +30,8 @@ All environments use the same interface as in Project 1: `reset()` returns the s
 `TileCoder(lows, highs, n_tilings=8, tiles_per_dim=8)` maps a state to the indices of its active tiles, one per tiling. With linear function approximation the value is the sum of the weights at those indices:
 
 ```python
+import numpy as np
+# x, v: current state; a: action; target: e.g. r + q(s', a')
 coder = TileCoder([MountainCar.X_MIN, MountainCar.V_MIN], [MountainCar.X_MAX, MountainCar.V_MAX])
 w = np.zeros((MountainCar.N_ACTIONS, coder.n_features))   # one weight vector per action
 idx = coder.active_tiles((x, v))

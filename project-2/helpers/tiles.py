@@ -14,7 +14,9 @@ For action values, keep one weight vector per action, e.g. `w = np.zeros((n_acti
 coder.n_features))` and `q = w[a, idx].sum()`.
 
 The tilings are offset from each other by fractions of a tile width, using the
-asymmetric displacement (1, 3, 5, ...) recommended in Section 9.5.4.
+asymmetric displacement (1, 3, 5, ...) recommended in Section 9.5.4. As in the
+book, `n_tilings` should be a power of 2 (and at least 4 times the number of
+dimensions); otherwise some tilings would coincide.
 """
 
 import numpy as np
@@ -31,6 +33,8 @@ class TileCoder:
         self._side = tiles_per_dim + 1
         self._tiles_per_tiling = self._side ** self.n_dims
         displacement = np.arange(1, 2 * self.n_dims, 2)  # 1, 3, 5, ...
+        if n_tilings > 1 and np.any(np.gcd(displacement, n_tilings) > 1):
+            raise ValueError("n_tilings should be a power of 2 (see Sutton & Barto, Section 9.5.4)")
         self._offsets = (np.arange(n_tilings)[:, None] * displacement[None, :] % n_tilings) / n_tilings
         self._strides = self._side ** np.arange(self.n_dims)
 

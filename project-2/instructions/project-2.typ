@@ -6,6 +6,7 @@
 #set par(justify: true)
 #set heading(numbering: none)
 #show link: set text(fill: blue)
+#show table: set par(justify: false)
 
 #let pts(n) = text(weight: "bold", fill: rgb("#555"))[(#n p)]
 #let lead(body) = par(text(style: "italic", fill: rgb("#555"), body))
@@ -105,9 +106,9 @@ Use the 19-state random walk with one feature per state, so that $hat(v)(s, bold
 Use tile coding with 8 tilings of $8 times 8$ tiles over $(x, v)$ (`TileCoder` with its default arguments and the bounds in `MountainCar`), one weight vector per action, and $bold(w) = bold(0)$. Act greedily ($epsilon = 0$), breaking ties at random. Stop an episode after 10000 steps.
 
 + Implement episodic semi-gradient Sarsa (§10.1). Plot learning curves of the return per episode over 500 episodes for $alpha in {0.1 slash 8, 0.2 slash 8, 0.5 slash 8}$ (limit the $y$-axis to $[-1000, 0]$).
-+ For one run with $alpha = 0.5 slash 8$, plot the cost-to-go $-max_a hat(q)(s, a, bold(w))$ after 1, 12, 100 and 500 episodes (helper: `plot_cost_to_go`). Describe how it changes.
-+ The agent never takes a random action. Why does it still explore?
-+ Implement n-step semi-gradient Sarsa (§10.2). Compare $n = 1$ ($alpha = 0.5 slash 8$) with $n = 8$ ($alpha = 0.3 slash 8$) in one learning-curve plot. Which learns faster?
++ For one seed with $alpha = 0.5 slash 8$, plot the cost-to-go $-max_a hat(q)(s, a, bold(w))$ after 1, 12, 100 and 500 episodes (helper: `plot_cost_to_go`). Describe how it changes.
++ The agent acts greedily ($epsilon = 0$). Why does it still explore?
++ Implement n-step semi-gradient Sarsa (§10.2). Compare $n = 1$ ($alpha = 0.5 slash 8$) with $n = 8$ ($alpha = 0.3 slash 8$) in one learning-curve plot over 500 episodes. Which learns faster?
 
 = Part C: Putting it together (10 p)
 
@@ -115,8 +116,8 @@ Fill in the table below for the methods as you used them *in your own experiment
 
 #block(breakable: false, align(center, table(
   columns: 5, align: left, stroke: 0.5pt,
-  table.header([*Method*], [*Bootstraps?*], [*On- or off-policy*], [*Function approx.?#super[1]*], [*Main weakness*]),
-  [Monte Carlo (Project 1, B1)], [], [], [], [],
+  table.header([*Method*], [*Bootstraps?*], [*On- or off-policy*], [*Function approx.?#sym.wj#super[1]*], [*Main weakness*]),
+  [Monte Carlo (A1, B1)], [], [], [], [],
   [TD(0)], [], [], [], [],
   [n-step TD / TD($lambda$)], [], [], [], [],
   [Sarsa], [], [], [], [],

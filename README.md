@@ -6,8 +6,8 @@ Projects for the Reinforcement Learning course at Stockholm University (SU).
 
 | Project | Topic | Instructions | Helper code |
 |---|---|---|---|
-| [Project 1](project-1) | Dynamic programming and Monte Carlo methods (ch. 1–5) | [PDF](project-1/instructions/project-1.pdf) | [helpers](project-1/helpers) |
-| [Project 2](project-2) | Temporal-difference learning and function approximation (ch. 6, 7, 9, 10, 12) | [PDF](project-2/instructions/project-2.pdf) | [helpers](project-2/helpers) |
+| [Project 1](project-1) | Dynamic programming and Monte Carlo methods (Ch. 1–5) | [PDF](project-1/instructions/project-1.pdf) | [helpers](project-1/helpers) |
+| [Project 2](project-2) | Temporal-difference learning and function approximation (Ch. 6, 7, 9, 10, 12) | [PDF](project-2/instructions/project-2.pdf) | [helpers](project-2/helpers) |
 | [Project 3](project-3) | Coming soon | | |
 
 Each released project folder contains:
