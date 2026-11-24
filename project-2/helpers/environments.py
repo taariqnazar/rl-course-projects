@@ -19,16 +19,19 @@ class RandomWalk:
     `a=None` to `step`. Each step moves the agent left or right with equal
     probability, by a uniformly random distance between 1 and `max_jump`.
     Jumps past an end land in that end's terminal state. Entering the left
-    terminal gives reward -1, entering the right terminal gives +1, and every
-    other transition gives 0. There is no discounting (gamma = 1).
+    terminal gives reward `left_reward` (default -1), entering the right
+    terminal gives +1, and every other transition gives 0. There is no
+    discounting (gamma = 1).
 
-    RandomWalk(19)                   : the 19-state walk (Sutton & Barto, Example 7.1).
+    RandomWalk(5, left_reward=0)     : the 5-state walk (Sutton & Barto, Example 6.2).
+    RandomWalk(19)                   : the 19-state walk (Example 7.1).
     RandomWalk(1000, max_jump=100)   : the 1000-state walk (Example 9.1).
     """
 
-    def __init__(self, n_states=19, max_jump=1, seed=None):
+    def __init__(self, n_states=19, max_jump=1, left_reward=-1.0, seed=None):
         self.n_states = n_states
         self.max_jump = max_jump
+        self.left_reward = float(left_reward)
         self.rng = np.random.default_rng(seed)
 
     @property
@@ -47,7 +50,7 @@ class RandomWalk:
         jump = self.rng.integers(1, self.max_jump + 1) * self.rng.choice((-1, 1))
         s_next = min(max(s + jump, 0), self.n_states + 1)
         if s_next == 0:
-            return s_next, -1.0, True
+            return s_next, self.left_reward, True
         if s_next == self.n_states + 1:
             return s_next, 1.0, True
         return s_next, 0.0, False
@@ -61,7 +64,7 @@ class RandomWalk:
             for j in range(1, k + 1):
                 for sign in (-1, 1):
                     p[s, min(max(s + sign * j, 0), n + 1)] += 1 / (2 * k)
-        r = p[1:n + 1, n + 1] - p[1:n + 1, 0]
+        r = p[1:n + 1, n + 1] + self.left_reward * p[1:n + 1, 0]
         return np.linalg.solve(np.eye(n) - p[1:n + 1, 1:n + 1], r)
 
 

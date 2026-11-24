@@ -18,7 +18,8 @@ All environments use the same interface as in Project 1: `reset()` returns the s
 
 ## `environments.py`
 
-- `RandomWalk(n_states=19, max_jump=1, seed=None)`: states `1..n`, terminals `0` (reward −1) and `n + 1` (reward +1). There are no actions: call `step(s)`. `true_values()` returns the exact values of states `1..n`.
+- `RandomWalk(n_states=19, max_jump=1, left_reward=-1, seed=None)`: states `1..n`, terminals `0` (reward `left_reward`) and `n + 1` (reward +1). There are no actions: call `step(s)`. `true_values()` returns the exact values of states `1..n`.
+  - `RandomWalk(5, left_reward=0)`: the 5-state walk of Example 6.2.
   - `RandomWalk(19)`: the 19-state walk.
   - `RandomWalk(1000, max_jump=100)`: the 1000-state walk.
 - `CliffWalking(seed=None)`: states `0..47`, actions `UP, RIGHT, DOWN, LEFT = 0, 1, 2, 3`. Use `to_state(row, col)` and `to_cell(s)` to convert, with row 0 at the bottom. The cliff gives −100 and returns the agent to the start; the episode continues.
