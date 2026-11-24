@@ -40,13 +40,13 @@ All three are examples from Sutton & Barto; the helpers implement them exactly a
 
 = Part A: Tabular methods (45 p)
 
-#lead[Monte Carlo waits until the end of an episode. TD updates after every step, using its own estimates (Sutton & Barto, Ch. 6).]
+#lead[Monte Carlo waits until the end of an episode. TD updates after every step, using its own estimates (Ch. 6).]
 
 == A1. TD(0) vs Monte Carlo prediction #pts(10)
 
 Use the 5-state random walk of Example 6.2 (`RandomWalk(5, left_reward=0)`) and start from $V equiv 0.5$.
 
-+ Implement TD(0) (§6.1) and constant-$alpha$ MC (every-visit, eq. 6.1). Run each for 100 episodes and record the RMSE over the 5 states after every episode. Use $alpha in {0.05, 0.1, 0.15}$ for TD and $alpha in {0.01, 0.02, 0.03, 0.04}$ for MC, and plot all seven curves in one figure.
++ Implement TD(0) (§6.1) and constant-$alpha$ MC (every-visit, eq. 6.1). Run each for 100 episodes and record the RMSE over the 5 states after every episode. Use $alpha in {0.05, 0.1, 0.15}$ for TD and $alpha in {0.01, 0.02, 0.03, 0.04}$ for MC, and plot all seven curves in one figure (mean only).
 + Which method has the lower error after 10 and after 100 episodes? How does the choice of $alpha$ trade early speed against final error?
 
 == A2. n-step TD #pts(10)
@@ -70,31 +70,31 @@ Use cliff walking with $epsilon = 0.1$, $alpha = 0.5$ and $Q equiv 0$, for 500 e
 
 #lead[n-step returns work for control as well.]
 
-+ Implement n-step Sarsa (§7.2) on cliff walking with $epsilon = 0.1$. For $n in {1, 2, 4, 8}$ and $alpha in {0.1, 0.2, 0.4, 0.6, 0.8}$, record the average return over the first 200 episodes. Plot it against $alpha$, one curve per $n$.
++ Implement n-step Sarsa (§7.2) on cliff walking with $epsilon = 0.1$, $Q equiv 0$ and random tie-breaking, as in A3. For $n in {1, 2, 4, 8}$ and $alpha in {0.1, 0.2, 0.4, 0.6, 0.8}$, record the average return over the first 200 episodes. Plot it against $alpha$, one curve per $n$.
 + Which values of $n$ and $alpha$ work well? How does the best $alpha$ depend on $n$?
 
 = Part B: Function approximation (45 p)
 
-#lead[A table needs one value per state. With many or continuous states we learn a parameterised $hat(v)(s, bold(w))$ instead (Ch. 9, 10, 12).]
+#lead[With many or continuous states, we learn a parameterised $hat(v)(s, bold(w))$ instead of a table (Ch. 9, 10, 12).]
 
 == B1. Prediction with state aggregation and tile coding #pts(15)
 
 Use the 1000-state random walk. The helper `TileCoder` covers both feature types: `TileCoder([1], [1001], n_tilings=1, tiles_per_dim=10)` is state aggregation with 10 groups of 100 states, and `TileCoder([1], [1001], n_tilings=50, tiles_per_dim=5)` is 50 tilings of width 200, each offset by 4 states (§9.5.4). Measure the error as the unweighted RMSE over all 1000 states.
 
-+ With 10 groups, implement gradient Monte Carlo (§9.3, $alpha = 2 times 10^(-4)$) and semi-gradient TD(0) (§9.3, $alpha = 2 times 10^(-3)$). Plot their RMSE against episodes, up to 5000.
++ With 10 groups, implement gradient Monte Carlo (§9.3, $alpha = 5 times 10^(-4)$) and semi-gradient TD(0) (§9.3, $alpha = 2 times 10^(-3)$). Plot their RMSE against episodes, up to 5000.
 + For one seed after 5000 episodes, plot both approximations together with the true values against the state. Why is the result a staircase, and why does TD's staircase differ from Monte Carlo's?
-+ Compare gradient Monte Carlo with one tiling of width 200 (`TileCoder([1], [1001], n_tilings=1, tiles_per_dim=5)`, $alpha = 5 times 10^(-4)$) and with 50 tilings of width 200 ($alpha = 5 times 10^(-4) slash 50$). Plot the RMSE against episodes, up to 5000. Why does tile coding reach a lower error, even though each tile is just as wide?
++ Compare gradient Monte Carlo with one tiling of width 200 (`TileCoder([1], [1001], n_tilings=1, tiles_per_dim=5)`, $alpha = 5 times 10^(-4)$) and with 50 tilings of width 200 ($alpha = 5 times 10^(-4) slash 50$). Plot the RMSE against episodes, up to 5000. Why do 50 tilings reach a lower error, even though each tile is just as wide?
 
 == B2. The $lambda$-return and TD($lambda$) #pts(12)
 
 #block(breakable: false)[
 #lead[Instead of choosing one $n$, the $lambda$-return averages all n-step returns.]
 
-Use the 19-state random walk with one feature per state, so that $hat(v)(s, bold(w)) = w_s$.
+Use the 19-state random walk with one feature per state, so that $hat(v)(s, bold(w)) = w_s$, and start from $bold(w) = bold(0)$.
 
 + Implement the offline $lambda$-return algorithm (§12.1): at the end of each episode, compute every $G_t^lambda$ with the values from the start of the episode, then apply the updates $w_(S_t) <- w_(S_t) + alpha (G_t^lambda - w_(S_t))$ in order.
 + Implement semi-gradient TD($lambda$) with accumulating traces (§12.2).
-+ For both, and for $lambda in {0, 0.4, 0.8, 0.9, 0.95, 1}$ and $alpha in {0, 0.1, dots, 1}$, compute the RMSE averaged over the first 10 episodes and over 100 runs. Plot error against $alpha$, one curve per $lambda$ (mean only; limit the $y$-axis to $[0.25, 0.55]$). TD($lambda$) may diverge for large $alpha$ and $lambda$; leave those points out.
++ For both methods, with $lambda in {0, 0.4, 0.8, 0.9, 0.95, 1}$ and $alpha in {0, 0.1, dots, 1}$, compute the RMSE averaged over the first 10 episodes and over 100 runs. Plot error against $alpha$, one curve per $lambda$ (mean only; limit the $y$-axis to $[0.25, 0.55]$). TD($lambda$) may diverge for large $alpha$ and $lambda$; leave those points out.
 + Which $lambda$ works best? Compare with your n-step results from A2. Where do the offline $lambda$-return and TD($lambda$) differ, and why?
 ]
 
@@ -111,12 +111,12 @@ Use tile coding with 8 tilings of $8 times 8$ tiles over $(x, v)$ (`TileCoder` w
 
 = Part C: Putting it together (10 p)
 
-Fill in the table below *from your own experiments*, for the methods as you used them, and add a few sentences on what $n$ and $lambda$ control.
+Fill in the table below for the methods as you used them *in your own experiments*, and add a few sentences on what $n$ and $lambda$ control.
 
 #block(breakable: false, align(center, table(
   columns: 5, align: left, stroke: 0.5pt,
-  table.header([*Method*], [*Bootstraps?*], [*On- or off-policy*], [*Used with function approx.?*], [*Main weakness*]),
-  [On-policy MC (Project 1)], [], [], [], [],
+  table.header([*Method*], [*Bootstraps?*], [*On- or off-policy*], [*Function approx.?#super[1]*], [*Main weakness*]),
+  [Monte Carlo (Project 1, B1)], [], [], [], [],
   [TD(0)], [], [], [], [],
   [n-step TD / TD($lambda$)], [], [], [], [],
   [Sarsa], [], [], [], [],
@@ -124,6 +124,8 @@ Fill in the table below *from your own experiments*, for the methods as you used
   [Expected Sarsa], [], [], [], [],
   [Semi-gradient Sarsa], [], [], [], [],
 )))
+
+#text(size: 9pt)[#super[1] One feature per state, as in B2, counts as tabular.]
 
 #figure(
   image("/common/figures/example-plot.svg", width: 62%),

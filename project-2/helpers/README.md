@@ -43,4 +43,4 @@ For the 1000-state random walk, use a one-dimensional coder, e.g. `TileCoder([1]
 
 - `plot_mean_std(ax, x, runs, label, color=None)`: mean over seeds with a ±1 std band. `runs` has shape `(n_seeds, len(x))`.
 - `plot_cliff_policy(ax, policy, title=None)`: a greedy policy for cliff walking, given as a length-48 array of actions, drawn as arrows.
-- `plot_cost_to_go(ax, value_fn, title=None)`: heat map of `-max_a q(s, a)` over Mountain Car's state space. `value_fn(x, v)` must return the array of action values.
+- `plot_cost_to_go(ax, value_fn, title=None, resolution=50)`: heat map of `-max_a q(s, a)` over Mountain Car's state space. `value_fn(x, v)` must return the array of action values.

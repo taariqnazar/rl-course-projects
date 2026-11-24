@@ -35,7 +35,7 @@ Random results need at least 10 seeds. Say how many you used.
 
 ![Example learning curve: average return over episodes, mean over 10 seeds with a ±1 std band](common/figures/example-plot.svg)
 
-*Example of a learning-curve figure (synthetic data).* The helper code includes a function for this plot (`plot_mean_std` in Project 1).
+*Example of a learning-curve figure (synthetic data).* The helper code includes a function for this plot (`plot_mean_std` in each project's helpers).
 
 ## Building the PDFs
 
